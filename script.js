@@ -1,3 +1,7 @@
+// --- PERSONALIZATION SETTINGS ---
+const HANDBOOK_TITLE = "Corporate Law Handbook"; 
+const WELCOME_MESSAGE = `A premium revision guide, custom-built for you. A small "thank you" for suggesting that book—the first one I ever finished reading! Good luck on your exams! ✨`;
+
 // Theme initialization
 const initTheme = () => {
     const savedTheme = localStorage.getItem('theme');
@@ -43,13 +47,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.loadHome = function() {
         contentContainer.innerHTML = `
-            <div class="welcome-screen fade-in" style="animation-delay: 0.1s; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 2rem; height: auto;">
-                <div class="gift-icon">🎁</div>
-                <h2 style="font-size: 2.5rem; background: linear-gradient(to right, var(--accent-blue), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.75rem; text-align: center;">
-                    Corporate Law Handbook
+            <div class="welcome-screen fade-in" style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 2rem; height: auto;">
+                <div class="gift-icon" style="font-size: 5rem; margin-bottom: 1rem; animation: float 4s ease-in-out infinite;">✨</div>
+                <h2 style="font-size: 2.8rem; background: linear-gradient(to right, var(--accent-blue), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.75rem; text-align: center; line-height: 1.2;">
+                    ${HANDBOOK_TITLE}
                 </h2>
                 <p style="font-size: 1.15rem; color: var(--text-muted); max-width: 550px; margin: 0 auto; line-height: 1.6; text-align: center;">
-                    A carefully crafted, premium revision guide built just for you. Select a module on the left or search for any concept to begin your revision.
+                    ${WELCOME_MESSAGE}
                 </p>
 
                 <!-- Smart Tools Section -->
@@ -59,16 +63,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     </h3>
                     <div class="tools-grid">
                         <!-- Pomodoro -->
-                        <div class="card tool-card fade-in" style="animation-delay: 0.2s" onclick="openPomodoro()">
-                            <div class="tool-icon">🍅</div>
-                            <h4>Pomodoro Timer</h4>
-                            <p>25-minute focus blocks to maximize your retention.</p>
+                        <div class="card tool-card fade-in" style="animation-delay: 0.2s; border-radius: 1.5rem;" onclick="openPomodoro()">
+                            <div class="tool-icon">⏱️</div>
+                            <h4>Focus Timer</h4>
+                            <p>Beautiful custom timers to maximize your study sessions.</p>
                         </div>
                         <!-- Web Search -->
-                        <div class="card tool-card fade-in" style="animation-delay: 0.3s" onclick="openWebview('', 'web')">
+                        <div class="card tool-card fade-in" style="animation-delay: 0.3s; border-radius: 1.5rem;" onclick="openWebview('', 'web')">
                             <div class="tool-icon">🌐</div>
-                            <h4>Global Web Search</h4>
-                            <p>Search the entire web for deep case laws and sections.</p>
+                            <h4>Deep Search</h4>
+                            <p>Search the entire web for specific case laws and sections.</p>
                         </div>
                     </div>
                 </div>
@@ -541,10 +545,40 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             clearInterval(pomodoroInterval);
             isRunning = false;
-            alert("🍅 Focus session complete! Time for a break.");
+            alert("✨ Focus session complete! Time for a break.");
+            createConfetti();
             totalTimeSeconds = 5 * 60; // Auto switch to 5 min break
             timeLeft = totalTimeSeconds;
             updatePomodoroUI();
+        }
+    }
+
+    function createConfetti() {
+        const colors = ['#ff9a9e', '#c4a1ff', '#8fa8ff', '#f6d365', '#fc8181'];
+        for (let i = 0; i < 60; i++) {
+            const confetti = document.createElement('div');
+            confetti.style.position = 'fixed';
+            confetti.style.width = Math.random() * 10 + 5 + 'px';
+            confetti.style.height = Math.random() * 10 + 5 + 'px';
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.top = '-20px';
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.opacity = Math.random() + 0.5;
+            confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+            confetti.style.pointerEvents = 'none';
+            confetti.style.zIndex = '9999';
+            confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+            document.body.appendChild(confetti);
+
+            const animation = confetti.animate([
+                { transform: `translate3d(0, 0, 0) rotate(0deg)`, opacity: 1 },
+                { transform: `translate3d(${Math.random() * 100 - 50}px, 100vh, 0) rotate(${Math.random() * 720}deg)`, opacity: 0 }
+            ], {
+                duration: Math.random() * 2000 + 3000,
+                easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+            });
+
+            animation.onfinish = () => confetti.remove();
         }
     }
 });

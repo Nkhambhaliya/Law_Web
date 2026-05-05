@@ -1,24 +1,23 @@
 /* Base Variables & Theme Setup - Premium Gift Edition */
 :root {
-    /* Soft, colorful gradient background */
-    --primary-bg: #f8fafc;
-    --sidebar-bg: rgba(255, 255, 255, 0.75);
-    --text-main: #0f172a;
-    --text-muted: #475569;
-    --border-color: rgba(226, 232, 240, 0.8);
+    --primary-bg: #fdfbfb;
+    --sidebar-bg: rgba(255, 255, 255, 0.85);
+    --text-main: #2d3748;
+    --text-muted: #718096;
+    --border-color: rgba(237, 223, 230, 0.8);
     
     /* Vibrant Highlight Colors */
-    --accent-blue: #2563eb;
-    --accent-blue-bg: #eff6ff;
-    --accent-purple: #8b5cf6;
-    --accent-purple-bg: #f5f3ff;
-    --accent-red: #f43f5e;
-    --accent-red-bg: #fff1f2;
-    --accent-gold: #f59e0b;
+    --accent-blue: #8fa8ff;
+    --accent-blue-bg: #f0f3ff;
+    --accent-purple: #c4a1ff;
+    --accent-purple-bg: #faf5ff;
+    --accent-red: #ff9a9e;
+    --accent-red-bg: #fff0f5;
+    --accent-gold: #f6d365;
     --accent-gold-bg: #fffbeb;
     
-    --hover-bg: rgba(241, 245, 249, 0.8);
-    --card-bg: rgba(255, 255, 255, 0.85);
+    --hover-bg: rgba(246, 240, 243, 0.8);
+    --card-bg: rgba(255, 255, 255, 0.9);
     
     /* Premium Shadows */
     --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.03), 0 2px 4px -1px rgba(0,0,0,0.02);
@@ -527,23 +526,23 @@ h1, h2, h3, h4, h5 { font-weight: 700; color: var(--text-main); }
 
 /* Dark Mode Theme */
 [data-theme="dark"] {
-    --primary-bg: #0f172a;
-    --sidebar-bg: rgba(15, 23, 42, 0.75);
-    --text-main: #f8fafc;
-    --text-muted: #94a3b8;
-    --border-color: rgba(51, 65, 85, 0.8);
+    --primary-bg: #1a1625;
+    --sidebar-bg: rgba(26, 22, 37, 0.85);
+    --text-main: #fdfbfb;
+    --text-muted: #a0aec0;
+    --border-color: rgba(68, 51, 79, 0.8);
     
-    --accent-blue: #60a5fa;
-    --accent-blue-bg: rgba(59, 130, 246, 0.15);
-    --accent-purple: #a78bfa;
-    --accent-purple-bg: rgba(139, 92, 246, 0.15);
-    --accent-red: #fb7185;
-    --accent-red-bg: rgba(244, 63, 94, 0.15);
-    --accent-gold: #fbbf24;
-    --accent-gold-bg: rgba(245, 158, 11, 0.15);
+    --accent-blue: #a3bffa;
+    --accent-blue-bg: rgba(163, 191, 250, 0.15);
+    --accent-purple: #d6bcfa;
+    --accent-purple-bg: rgba(214, 188, 250, 0.15);
+    --accent-red: #fc8181;
+    --accent-red-bg: rgba(252, 129, 129, 0.15);
+    --accent-gold: #f6e05e;
+    --accent-gold-bg: rgba(246, 224, 94, 0.15);
     
-    --hover-bg: rgba(30, 41, 59, 0.8);
-    --card-bg: rgba(30, 41, 59, 0.6);
+    --hover-bg: rgba(42, 33, 57, 0.8);
+    --card-bg: rgba(42, 33, 57, 0.6);
     
     --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.3), 0 2px 4px -1px rgba(0,0,0,0.2);
     --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.4), 0 4px 6px -2px rgba(0,0,0,0.2);
@@ -551,24 +550,24 @@ h1, h2, h3, h4, h5 { font-weight: 700; color: var(--text-main); }
 }
 
 [data-theme="dark"] body {
-    background: linear-gradient(135deg, #020617 0%, #0f172a 50%, #1e1b4b 100%);
+    background: linear-gradient(135deg, #13111C 0%, #1a1625 50%, #2A2139 100%);
 }
 
 [data-theme="dark"] #searchInput {
-    background-color: rgba(15, 23, 42, 0.8);
+    background-color: rgba(26, 22, 37, 0.8);
     color: var(--text-main);
 }
 [data-theme="dark"] #searchInput:focus {
-    background-color: rgba(30, 41, 59, 1);
+    background-color: rgba(42, 33, 57, 1);
 }
 [data-theme="dark"] .useful-links-section {
-    background-color: rgba(15, 23, 42, 0.4);
+    background-color: rgba(26, 22, 37, 0.4);
 }
 [data-theme="dark"] .top-header {
-    background-color: rgba(15, 23, 42, 0.5);
+    background-color: rgba(26, 22, 37, 0.5);
 }
 [data-theme="dark"] .modal-header {
-    background: rgba(30, 41, 59, 0.95);
+    background: rgba(42, 33, 57, 0.95);
 }
 [data-theme="dark"] .modal-body {
     background: var(--primary-bg);
