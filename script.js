@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="card sections">
                     <h3>📌 Key Sections</h3>
                     <div>
-                        ${topic.keySections.map(sec => `<span class="tag-section">${sec}</span>`).join('')}
+                        ${topic.keySections.map(sec => `<a href="https://www.google.com/search?q=Companies+Act+2013+${encodeURIComponent(sec)}" target="_blank" class="tag-section" title="Search ${sec} on Google">${sec}</a>`).join('')}
                     </div>
                 </div>
             `;
