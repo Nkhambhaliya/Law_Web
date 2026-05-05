@@ -373,8 +373,23 @@ h1, h2, h3, h4, h5 {
 .case-name {
     font-weight: 600;
     color: var(--accent-purple);
-    margin-bottom: 0.25rem;
-    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.05rem;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    transition: var(--transition);
+}
+
+.case-name:hover {
+    text-decoration: underline;
+    color: #7c3aed; /* Slightly darker purple on hover */
 }
 .case-summary {
     font-size: 0.95rem;

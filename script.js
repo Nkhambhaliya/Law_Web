@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="card sections">
                     <h3>📌 Key Sections</h3>
                     <div>
-                        ${topic.keySections.map(sec => `<button class="tag-section" onclick="openWebview('${sec}')" title="View details for ${sec}">${sec}</button>`).join('')}
+                        ${topic.keySections.map(sec => `<button class="tag-section" onclick="openWebview('${sec}', 'section')" title="View details for ${sec}">${sec}</button>`).join('')}
                     </div>
                 </div>
             `;
@@ -157,10 +157,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Important Case (Purple)
         if (topic.importantCase) {
+            // Escape single quotes to prevent breaking the onclick attribute
+            const safeCaseName = topic.importantCase.name.replace(/'/g, "\\'");
             html += `
                 <div class="card cases">
                     <h3>⚖️ Important Case</h3>
-                    <div class="case-name">${topic.importantCase.name}</div>
+                    <button class="case-name" onclick="openWebview('${safeCaseName}', 'case')" title="Search details for this case">🔍 ${topic.importantCase.name}</button>
                     <div class="case-summary">${topic.importantCase.summary}</div>
                 </div>
             `;
@@ -263,10 +265,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const webviewFrame = document.getElementById('webviewFrame');
     const modalTitle = document.getElementById('modalTitle');
 
-    window.openWebview = function(section) {
-        modalTitle.textContent = `Companies Act 2013 - ${section}`;
-        // Using Bing because Google explicitly blocks iframing (X-Frame-Options: SAMEORIGIN)
-        webviewFrame.src = `https://www.bing.com/search?q=Companies+Act+2013+${encodeURIComponent(section)}`;
+    window.openWebview = function(query, type = 'section') {
+        if (type === 'case') {
+            modalTitle.textContent = `Landmark Case: ${query}`;
+            webviewFrame.src = `https://www.bing.com/search?q=${encodeURIComponent(query + ' corporate law case summary')}`;
+        } else {
+            modalTitle.textContent = `Companies Act 2013 - ${query}`;
+            // Using Bing because Google explicitly blocks iframing (X-Frame-Options: SAMEORIGIN)
+            webviewFrame.src = `https://www.bing.com/search?q=Companies+Act+2013+${encodeURIComponent(query)}`;
+        }
         webviewModal.classList.add('show');
     };
 
