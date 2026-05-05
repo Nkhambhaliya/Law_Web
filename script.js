@@ -40,6 +40,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Global Data State
     let contentData = null;
+
+    window.loadHome = function() {
+        contentContainer.innerHTML = `
+            <div class="welcome-screen fade-in" style="animation-delay: 0.1s; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 2rem; height: auto;">
+                <div class="gift-icon">🎁</div>
+                <h2 style="font-size: 2.5rem; background: linear-gradient(to right, var(--accent-blue), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.75rem; text-align: center;">
+                    Corporate Law Handbook
+                </h2>
+                <p style="font-size: 1.15rem; color: var(--text-muted); max-width: 550px; margin: 0 auto; line-height: 1.6; text-align: center;">
+                    A carefully crafted, premium revision guide built just for you. Select a module on the left or search for any concept to begin your revision.
+                </p>
+
+                <!-- Smart Tools Section -->
+                <div style="width: 100%; max-width: 850px; margin-top: 4rem; text-align: left;">
+                    <h3 style="font-size: 1.25rem; color: var(--text-main); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 1.5rem;">🛠️</span> Study Tools
+                    </h3>
+                    <div class="tools-grid">
+                        <!-- Pomodoro -->
+                        <div class="card tool-card fade-in" style="animation-delay: 0.2s" onclick="openPomodoro()">
+                            <div class="tool-icon">🍅</div>
+                            <h4>Pomodoro Timer</h4>
+                            <p>25-minute focus blocks to maximize your retention.</p>
+                        </div>
+                        <!-- Web Search -->
+                        <div class="card tool-card fade-in" style="animation-delay: 0.3s" onclick="openWebview('', 'web')">
+                            <div class="tool-icon">🌐</div>
+                            <h4>Global Web Search</h4>
+                            <p>Search the entire web for deep case laws and sections.</p>
+                        </div>
+                        <!-- Print/Export -->
+                        <div class="card tool-card fade-in" style="animation-delay: 0.4s" onclick="window.print()">
+                            <div class="tool-icon">🖨️</div>
+                            <h4>Print / Save PDF</h4>
+                            <p>Print your current revision notes as a cheat sheet.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    };
     let allTopics = [];
 
     // Load Content Data from global variable (data.js)
@@ -47,6 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
         contentData = siteData;
         processAllTopics(siteData);
         renderSidebar(siteData);
+        loadHome();
     } else {
         contentContainer.innerHTML = `
             <div class="welcome-screen">
@@ -219,12 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!query) {
             // Restore default welcome view if query is empty
-            contentContainer.innerHTML = `
-                <div class="welcome-screen">
-                    <h3>Welcome to your Revision Guide</h3>
-                    <p>Select a module from the sidebar or search for a topic to begin.</p>
-                </div>
-            `;
+            loadHome();
             return;
         }
 
@@ -349,5 +386,170 @@ document.addEventListener('DOMContentLoaded', () => {
         webviewModal.classList.remove('show');
         // Clear iframe src after transition to stop audio/video and reset state
         setTimeout(() => { webviewFrame.src = ''; }, 300);
+    }
+
+    // Global Pomodoro State
+    let pomodoroInterval = null;
+    let totalTimeSeconds = 25 * 60;
+    let timeLeft = 25 * 60;
+    let isRunning = false;
+
+    function updatePomodoroUI() {
+        const timeDisplay = document.getElementById('pomodoroTimeLarge');
+        const startBtn = document.getElementById('pomodoroStartBtn');
+        const statusDisplay = document.getElementById('pomodoroStatus');
+        const ring = document.getElementById('pomodoroRing');
+        
+        if (timeDisplay) {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timeDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        if (ring) {
+            // Calculate percentage
+            // circumference is ~816
+            const percent = timeLeft / totalTimeSeconds;
+            const offset = 816 - (percent * 816);
+            ring.style.strokeDashoffset = offset;
+            
+            // Adjust ring color based on state
+            if (!isRunning && timeLeft < totalTimeSeconds && timeLeft > 0) {
+                ring.style.stroke = 'var(--accent-gold)';
+            } else if (timeLeft === 0) {
+                ring.style.stroke = 'var(--accent-red)';
+            } else {
+                ring.style.stroke = 'var(--accent-blue)';
+            }
+        }
+        
+        if (startBtn && statusDisplay) {
+            if (isRunning) {
+                startBtn.innerHTML = '<span class="icon">⏸</span>';
+                startBtn.classList.add('paused');
+                statusDisplay.textContent = 'Focusing...';
+            } else {
+                startBtn.innerHTML = '<span class="icon">▶</span>';
+                startBtn.classList.remove('paused');
+                statusDisplay.textContent = timeLeft < totalTimeSeconds ? 'Paused' : 'Ready to focus';
+            }
+        }
+    }
+
+    window.openPomodoro = function() {
+        // Clear active highlights in sidebar
+        document.querySelectorAll('.topic-link').forEach(btn => btn.classList.remove('active'));
+        if(window.innerWidth <= 768) closeSidebar();
+        searchInput.value = '';
+
+        contentContainer.innerHTML = `
+            <div class="pomodoro-container fade-in">
+                <div class="pomodoro-header">
+                    <h1>Focus Session</h1>
+                    <p>Deep work is your superpower.</p>
+                </div>
+
+                <div class="pomodoro-timer-wrapper">
+                    <svg class="pomodoro-ring" viewBox="0 0 300 300">
+                        <circle class="pomodoro-ring-bg" cx="150" cy="150" r="130"></circle>
+                        <circle class="pomodoro-ring-progress" id="pomodoroRing" cx="150" cy="150" r="130"></circle>
+                    </svg>
+                    <div class="pomodoro-time-display">
+                        <div id="pomodoroTimeLarge">25:00</div>
+                        <div class="pomodoro-status" id="pomodoroStatus">Ready to focus</div>
+                    </div>
+                </div>
+
+                <div class="pomodoro-controls-main">
+                    <button id="pomodoroStartBtn" class="pomodoro-btn play-btn" onclick="togglePomodoro()" title="Start / Pause">
+                        <span class="icon">▶</span>
+                    </button>
+                    <button class="pomodoro-btn reset-btn" onclick="resetPomodoro()" title="Reset Timer">
+                        <span class="icon">↺</span>
+                    </button>
+                </div>
+
+                <div class="pomodoro-presets">
+                    <h4 style="margin-bottom: 1rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.85rem;">Select Duration</h4>
+                    <div class="preset-group" id="presetGroup">
+                        <button onclick="setPomodoroTime(15, this)">15m</button>
+                        <button onclick="setPomodoroTime(25, this)" class="active">25m</button>
+                        <button onclick="setPomodoroTime(50, this)">50m</button>
+                        <button onclick="setPomodoroTime(90, this)">90m</button>
+                    </div>
+                    <div class="custom-time-input">
+                        <input type="number" id="customTimeInput" placeholder="Custom (min)" min="1" max="240">
+                        <button onclick="applyCustomTime()">Set</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        // Sync UI with current state
+        updatePomodoroUI();
+        
+        // Update active preset button based on totalTimeSeconds
+        updateActivePresetBtn(totalTimeSeconds / 60);
+    };
+
+    function updateActivePresetBtn(minutes) {
+        const btns = document.querySelectorAll('#presetGroup button');
+        if(!btns.length) return;
+        btns.forEach(b => b.classList.remove('active'));
+        const target = Array.from(btns).find(b => parseInt(b.textContent) === minutes);
+        if (target) target.classList.add('active');
+    }
+
+    window.togglePomodoro = function() {
+        if (isRunning) {
+            clearInterval(pomodoroInterval);
+        } else {
+            if (timeLeft === 0) resetPomodoro(); // Auto-reset if starting from 0
+            pomodoroInterval = setInterval(updateTimer, 1000);
+        }
+        isRunning = !isRunning;
+        updatePomodoroUI();
+    };
+
+    window.resetPomodoro = function() {
+        clearInterval(pomodoroInterval);
+        isRunning = false;
+        timeLeft = totalTimeSeconds;
+        updatePomodoroUI();
+    };
+
+    window.setPomodoroTime = function(minutes, btnElement) {
+        clearInterval(pomodoroInterval);
+        isRunning = false;
+        totalTimeSeconds = minutes * 60;
+        timeLeft = totalTimeSeconds;
+        updatePomodoroUI();
+        if (btnElement) {
+            updateActivePresetBtn(minutes);
+        } else {
+            // Unset all if custom time
+            document.querySelectorAll('#presetGroup button').forEach(b => b.classList.remove('active'));
+        }
+    };
+
+    window.applyCustomTime = function() {
+        const input = document.getElementById('customTimeInput');
+        if (input && input.value && input.value > 0) {
+            setPomodoroTime(parseInt(input.value), null);
+            input.value = '';
+        }
+    };
+
+    function updateTimer() {
+        if (timeLeft > 0) {
+            timeLeft--;
+            updatePomodoroUI();
+        } else {
+            clearInterval(pomodoroInterval);
+            isRunning = false;
+            alert("🍅 Focus session complete! Time for a break.");
+            totalTimeSeconds = 5 * 60; // Auto switch to 5 min break
+            timeLeft = totalTimeSeconds;
+            updatePomodoroUI();
+        }
     }
 });

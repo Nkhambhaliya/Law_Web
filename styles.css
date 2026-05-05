@@ -199,9 +199,236 @@ h1, h2, h3, h4, h5 { font-weight: 700; color: var(--text-main); }
 
 .content-container { flex: 1; overflow-y: auto; padding: 3rem 2rem; max-width: 850px; margin: 0 auto; width: 100%; scroll-behavior: smooth; }
 
-/* Welcome Screen */
-.welcome-screen { text-align: center; color: var(--text-muted); display: flex; flex-direction: column; align-items: center; justify-content: center; height: 70%; }
-.gift-icon { font-size: 5rem; margin-bottom: 1.5rem; animation: float 4s ease-in-out infinite; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1)); }
+/* Welcome Screen & Home */
+.welcome-screen { color: var(--text-muted); }
+.gift-icon { font-size: 5rem; margin-bottom: 1.5rem; animation: float 4s ease-in-out infinite; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1)); text-align: center; }
+
+/* Home Tools Grid */
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+}
+.tool-card {
+    padding: 1.5rem;
+    cursor: pointer;
+    margin-bottom: 0;
+    text-align: left;
+}
+.tool-card:hover {
+    border-color: var(--accent-blue);
+}
+.tool-card .tool-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    display: inline-block;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.tool-card:hover .tool-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+.tool-card h4 {
+    font-size: 1.15rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-main);
+}
+.tool-card p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+/* Premium Pomodoro UX */
+.pomodoro-container {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 2rem 1rem;
+}
+.pomodoro-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(to right, var(--accent-blue), var(--accent-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.pomodoro-header p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+}
+
+.pomodoro-timer-wrapper {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin: 0 auto 3rem auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.pomodoro-ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+.pomodoro-ring-bg {
+    fill: none;
+    stroke: var(--border-color);
+    stroke-width: 8;
+}
+.pomodoro-ring-progress {
+    fill: none;
+    stroke: var(--accent-blue);
+    stroke-width: 12;
+    stroke-linecap: round;
+    stroke-dasharray: 816;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 1s linear, stroke 0.3s;
+    filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.4));
+}
+[data-theme="dark"] .pomodoro-ring-progress {
+    filter: drop-shadow(0 0 15px rgba(96, 165, 250, 0.5));
+}
+
+.pomodoro-time-display {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#pomodoroTimeLarge {
+    font-size: 4.5rem;
+    font-weight: 800;
+    color: var(--text-main);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+    line-height: 1;
+}
+.pomodoro-status {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.pomodoro-controls-main {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+.pomodoro-btn {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    cursor: pointer;
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: var(--card-bg);
+    color: var(--text-main);
+}
+.pomodoro-btn:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: var(--shadow-hover);
+}
+.pomodoro-btn.play-btn {
+    background: var(--accent-blue);
+    color: white;
+    width: 80px;
+    height: 80px;
+    font-size: 2rem;
+}
+.pomodoro-btn.play-btn:hover {
+    background: #1d4ed8;
+}
+.pomodoro-btn.play-btn.paused {
+    background: var(--accent-gold);
+}
+[data-theme="dark"] .pomodoro-btn.play-btn:hover {
+    background: #3b82f6;
+}
+
+.pomodoro-presets {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+}
+.preset-group {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+.preset-group button {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    padding: 0.5rem 1.25rem;
+    border-radius: 999px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+.preset-group button:hover {
+    background: var(--hover-bg);
+    color: var(--text-main);
+}
+.preset-group button.active {
+    background: var(--accent-blue-bg);
+    color: var(--accent-blue);
+    border-color: rgba(59, 130, 246, 0.3);
+}
+
+.custom-time-input {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+.custom-time-input input {
+    background: var(--primary-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 0.75rem 1.25rem;
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: 1rem;
+    outline: none;
+    width: 150px;
+    transition: var(--transition);
+}
+.custom-time-input input:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px var(--accent-blue-bg);
+}
+.custom-time-input button {
+    background: var(--text-main);
+    color: var(--primary-bg);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 999px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+.custom-time-input button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
 
 /* Topic Headers and Cards */
 .topic-header { margin-bottom: 2.5rem; }
