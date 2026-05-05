@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corporate Law Exam Handbook</title>
+    <meta name="description"
+        content="Quick revision guide for corporate law students. Minimalist and optimized for fast reading.">
+    <!-- Google Fonts for clean sans-serif typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Mobile Header (Visible only on small screens) -->
+    <div class="mobile-header">
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+        <h1>Law Handbook</h1>
+    </div>
+
+    <!-- Fixed Left Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>Corporate Law</h2>
+            <p>Exam Handbook</p>
+        </div>
+        <ul class="module-list" id="moduleList">
+            <!-- Modules will be dynamically populated here via JavaScript -->
+        </ul>
+    </nav>
+
+    <!-- Main Content Area on the right -->
+    <main class="main-content">
+        <!-- Sticky Header with instant Search Bar -->
+        <header class="top-header">
+            <div class="search-container">
+                <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="searchInput" placeholder="Search topics, sections, or concepts..."
+                    autocomplete="off">
+            </div>
+        </header>
+
+        <!-- Dynamic Content Container -->
+        <div class="content-container" id="contentContainer">
+            <!-- Default Placeholder Screen -->
+            <div class="welcome-screen">
+                <h3>Welcome to your Revision Guide</h3>
+                <p>Select a module from the sidebar or search for a topic to begin.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Overlay background for mobile sidebar -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Main Logic Script -->
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
