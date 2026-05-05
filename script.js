@@ -204,11 +204,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Render Search Results List
     function renderSearchResults(results, query) {
+        const safeQuery = query.replace(/'/g, "\\'");
+
         if (results.length === 0) {
             contentContainer.innerHTML = `
-                <div class="welcome-screen">
-                    <h3>No results found for "${query}"</h3>
-                    <p>Try searching with different keywords like 'Sections', 'Concepts', or 'Cases'.</p>
+                <div class="welcome-screen" style="margin-top: 3rem;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🔍</div>
+                    <h3>No local results found for "${query}"</h3>
+                    <p style="margin-bottom: 2rem;">We couldn't find this exact topic in the handbook.</p>
+                    <button class="tag-section" style="font-size: 1rem; padding: 0.75rem 1.5rem;" onclick="openWebview('${safeQuery}', 'web')">
+                        🌐 Search the Web for "${query}"
+                    </button>
                 </div>
             `;
             return;
@@ -230,6 +236,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 </li>
             `;
         });
+
+        // Always add a Web Search fallback option at the bottom
+        html += `
+                <li class="search-result-item web-search-item" onclick="openWebview('${safeQuery}', 'web')">
+                    <div class="search-result-title" style="color: var(--accent-blue);">🌐 Search the Web for "${query}"</div>
+                    <div class="search-result-module">Can't find exactly what you need? Open web results.</div>
+                </li>
+        `;
 
         html += `</ul>`;
         contentContainer.innerHTML = html;
@@ -269,6 +283,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (type === 'case') {
             modalTitle.textContent = `Landmark Case: ${query}`;
             webviewFrame.src = `https://www.bing.com/search?q=${encodeURIComponent(query + ' corporate law case summary')}`;
+        } else if (type === 'web') {
+            modalTitle.textContent = `Web Search: ${query}`;
+            webviewFrame.src = `https://www.bing.com/search?q=${encodeURIComponent(query + ' corporate law')}`;
         } else {
             modalTitle.textContent = `Companies Act 2013 - ${query}`;
             // Using Bing because Google explicitly blocks iframing (X-Frame-Options: SAMEORIGIN)

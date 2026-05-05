@@ -551,3 +551,14 @@ h1, h2, h3, h4, h5 {
     height: 100%;
     border: none;
 }
+
+/* Web Search Item Style */
+.search-result-item.web-search-item {
+    border-color: var(--accent-blue);
+    background-color: var(--accent-blue-bg);
+    margin-top: 1rem;
+}
+
+.search-result-item.web-search-item:hover {
+    background-color: #dbeafe; /* Slightly darker blue */
+}
