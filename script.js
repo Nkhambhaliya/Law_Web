@@ -1,3 +1,14 @@
+// Theme initialization
+const initTheme = () => {
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+    }
+};
+initTheme(); // Run immediately to prevent flashing on load
+
 document.addEventListener('DOMContentLoaded', () => {
     // DOM Elements
     const sidebar = document.getElementById('sidebar');
@@ -6,6 +17,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('searchInput');
     const menuToggle = document.getElementById('menuToggle');
     const sidebarOverlay = document.getElementById('sidebarOverlay');
+    const themeToggleBtn = document.getElementById('themeToggle');
+
+    // Theme Toggle Logic
+    const updateThemeIcon = () => {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        themeToggleBtn.textContent = isDark ? '☀️' : '🌙';
+    };
+    updateThemeIcon();
+
+    themeToggleBtn.addEventListener('click', () => {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        if (isDark) {
+            document.documentElement.removeAttribute('data-theme');
+            localStorage.setItem('theme', 'light');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+        }
+        updateThemeIcon();
+    });
 
     // Global Data State
     let contentData = null;
