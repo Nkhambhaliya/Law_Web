@@ -294,6 +294,12 @@ document.addEventListener('DOMContentLoaded', () => {
         webviewModal.classList.add('show');
     };
 
+    window.openWebviewDirect = function(url, title) {
+        modalTitle.textContent = title;
+        webviewFrame.src = url;
+        webviewModal.classList.add('show');
+    };
+
     closeModalBtn.addEventListener('click', closeWebview);
     webviewModal.addEventListener('click', (e) => {
         // Close modal if clicked outside the content area
