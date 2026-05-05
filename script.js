@@ -70,12 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             <h4>Global Web Search</h4>
                             <p>Search the entire web for deep case laws and sections.</p>
                         </div>
-                        <!-- Print/Export -->
-                        <div class="card tool-card fade-in" style="animation-delay: 0.4s" onclick="window.print()">
-                            <div class="tool-icon">🖨️</div>
-                            <h4>Print / Save PDF</h4>
-                            <p>Print your current revision notes as a cheat sheet.</p>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -176,7 +170,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // 4. Construct Content HTML based on STRICT TEMPLATE
         let html = `
             <div class="topic-header fade-in" style="animation-delay: 0.1s">
-                <h1>${topic.title}</h1>
+                <div style="color: var(--accent-blue); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em;">Module: ${topic.moduleName}</div>
+                <h1 style="margin-bottom:0;">${topic.title}</h1>
             </div>
         `;
 
