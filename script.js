@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="card sections">
                     <h3>📌 Key Sections</h3>
                     <div>
-                        ${topic.keySections.map(sec => `<a href="https://www.google.com/search?q=Companies+Act+2013+${encodeURIComponent(sec)}" target="_blank" class="tag-section" title="Search ${sec} on Google">${sec}</a>`).join('')}
+                        ${topic.keySections.map(sec => `<button class="tag-section" onclick="openWebview('${sec}')" title="View details for ${sec}">${sec}</button>`).join('')}
                     </div>
                 </div>
             `;
@@ -255,5 +255,30 @@ document.addEventListener('DOMContentLoaded', () => {
     function closeSidebar() {
         sidebar.classList.remove('open');
         sidebarOverlay.classList.remove('show');
+    }
+
+    // Webview Modal Handlers
+    const webviewModal = document.getElementById('webviewModal');
+    const closeModalBtn = document.getElementById('closeModal');
+    const webviewFrame = document.getElementById('webviewFrame');
+    const modalTitle = document.getElementById('modalTitle');
+
+    window.openWebview = function(section) {
+        modalTitle.textContent = `Companies Act 2013 - ${section}`;
+        // Using Bing because Google explicitly blocks iframing (X-Frame-Options: SAMEORIGIN)
+        webviewFrame.src = `https://www.bing.com/search?q=Companies+Act+2013+${encodeURIComponent(section)}`;
+        webviewModal.classList.add('show');
+    };
+
+    closeModalBtn.addEventListener('click', closeWebview);
+    webviewModal.addEventListener('click', (e) => {
+        // Close modal if clicked outside the content area
+        if (e.target === webviewModal) closeWebview();
+    });
+
+    function closeWebview() {
+        webviewModal.classList.remove('show');
+        // Clear iframe src after transition to stop audio/video and reset state
+        setTimeout(() => { webviewFrame.src = ''; }, 300);
     }
 });

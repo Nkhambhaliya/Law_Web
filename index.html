@@ -68,6 +68,19 @@
     <!-- Overlay background for mobile sidebar -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
+    <!-- Webview Modal Popup -->
+    <div class="modal-overlay" id="webviewModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Section Details</h3>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <iframe id="webviewFrame" src=""></iframe>
+            </div>
+        </div>
+    </div>
+
     <!-- Main Logic Script -->
     <script src="data.js"></script>
     <script src="script.js"></script>
