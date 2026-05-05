@@ -102,57 +102,63 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 4. Construct Content HTML based on STRICT TEMPLATE
         let html = `
-            <div class="topic-header">
+            <div class="topic-header fade-in" style="animation-delay: 0.1s">
                 <h1>${topic.title}</h1>
             </div>
         `;
 
+        let delay = 0.2;
+
         // 1-Minute Revision
         if (topic.oneMinuteRevision && topic.oneMinuteRevision.length > 0) {
             html += `
-                <div class="card">
+                <div class="card general fade-in" style="animation-delay: ${delay}s">
                     <h3>⚡ 1-Minute Revision</h3>
                     <ul>
                         ${topic.oneMinuteRevision.map(item => `<li>${item}</li>`).join('')}
                     </ul>
                 </div>
             `;
+            delay += 0.1;
         }
 
         // Key Sections (Blue)
         if (topic.keySections && topic.keySections.length > 0) {
             html += `
-                <div class="card sections">
+                <div class="card sections fade-in" style="animation-delay: ${delay}s">
                     <h3>📌 Key Sections</h3>
                     <div>
                         ${topic.keySections.map(sec => `<button class="tag-section" onclick="openWebview('${sec}', 'section')" title="View details for ${sec}">${sec}</button>`).join('')}
                     </div>
                 </div>
             `;
+            delay += 0.1;
         }
 
         // Core Concepts
         if (topic.coreConcepts && topic.coreConcepts.length > 0) {
             html += `
-                <div class="card">
+                <div class="card general fade-in" style="animation-delay: ${delay}s">
                     <h3>🧠 Core Concepts</h3>
                     <ul>
                         ${topic.coreConcepts.map(item => `<li>${item}</li>`).join('')}
                     </ul>
                 </div>
             `;
+            delay += 0.1;
         }
 
         // Common Exam Traps (Red)
         if (topic.commonExamTraps && topic.commonExamTraps.length > 0) {
             html += `
-                <div class="card traps">
+                <div class="card traps fade-in" style="animation-delay: ${delay}s">
                     <h3>❗ Common Exam Traps</h3>
                     <ul>
                         ${topic.commonExamTraps.map(item => `<li>${item}</li>`).join('')}
                     </ul>
                 </div>
             `;
+            delay += 0.1;
         }
 
         // Important Case (Purple)
@@ -160,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Escape single quotes to prevent breaking the onclick attribute
             const safeCaseName = topic.importantCase.name.replace(/'/g, "\\'");
             html += `
-                <div class="card cases">
+                <div class="card cases fade-in" style="animation-delay: ${delay}s">
                     <h3>⚖️ Important Case</h3>
                     <button class="case-name" onclick="openWebview('${safeCaseName}', 'case')" title="Search details for this case">🔍 ${topic.importantCase.name}</button>
                     <div class="case-summary">${topic.importantCase.summary}</div>
@@ -208,11 +214,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (results.length === 0) {
             contentContainer.innerHTML = `
-                <div class="welcome-screen" style="margin-top: 3rem;">
-                    <div style="font-size: 3rem; margin-bottom: 1rem;">🔍</div>
-                    <h3>No local results found for "${query}"</h3>
-                    <p style="margin-bottom: 2rem;">We couldn't find this exact topic in the handbook.</p>
-                    <button class="tag-section" style="font-size: 1rem; padding: 0.75rem 1.5rem;" onclick="openWebview('${safeQuery}', 'web')">
+                <div class="welcome-screen fade-in" style="animation-delay: 0.1s;">
+                    <div style="font-size: 4rem; margin-bottom: 1rem; animation: float 4s ease-in-out infinite;">🔍</div>
+                    <h3 style="font-size: 2rem; color: var(--text-main); margin-bottom: 0.5rem;">No local results found</h3>
+                    <p style="margin-bottom: 2rem; font-size: 1.1rem;">We couldn't find exactly what you were looking for in the handbook.</p>
+                    <button class="tag-section" style="font-size: 1.05rem; padding: 1rem 2rem; border-radius: 9999px;" onclick="openWebview('${safeQuery}', 'web')">
                         🌐 Search the Web for "${query}"
                     </button>
                 </div>
@@ -221,25 +227,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         let html = `
-            <div class="topic-header">
+            <div class="topic-header fade-in" style="animation-delay: 0.1s">
                 <h2>Search Results</h2>
             </div>
             <ul class="search-results-list">
         `;
 
+        let delay = 0.2;
         // Create clickable result cards
         results.forEach(topic => {
             html += `
-                <li class="search-result-item" onclick="document.dispatchEvent(new CustomEvent('openTopic', {detail: '${topic.id}'}))">
+                <li class="search-result-item fade-in" style="animation-delay: ${delay}s" onclick="document.dispatchEvent(new CustomEvent('openTopic', {detail: '${topic.id}'}))">
                     <div class="search-result-title">${topic.title}</div>
                     <div class="search-result-module">Module: ${topic.moduleName}</div>
                 </li>
             `;
+            delay += 0.05;
         });
 
         // Always add a Web Search fallback option at the bottom
         html += `
-                <li class="search-result-item web-search-item" onclick="openWebview('${safeQuery}', 'web')">
+                <li class="search-result-item web-search-item fade-in" style="animation-delay: ${delay}s" onclick="openWebview('${safeQuery}', 'web')">
                     <div class="search-result-title" style="color: var(--accent-blue);">🌐 Search the Web for "${query}"</div>
                     <div class="search-result-module">Can't find exactly what you need? Open web results.</div>
                 </li>
