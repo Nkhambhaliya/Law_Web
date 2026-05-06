@@ -1,12 +1,12 @@
 // --- PERSONALIZATION SETTINGS ---
-const HANDBOOK_TITLE = "Corporate Law Handbook"; 
-const WELCOME_MESSAGE = `A premium revision guide, custom-built for you. A small "thank you" for suggesting that book—the first one I ever finished reading! Good luck on your exams! ✨`;
+const HANDBOOK_TITLE = "Corporate Law Handbook";
+const WELCOME_MESSAGE = `A revision guide, custom-built for you. A small "thank you" for suggesting that book,the first one I ever finished reading! ✨`;
 
 // Theme initialization
 const initTheme = () => {
     const savedTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
+
     if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
         document.documentElement.setAttribute('data-theme', 'dark');
     }
@@ -45,10 +45,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Global Data State
     let contentData = null;
 
-    window.loadHome = function() {
+    window.loadHome = function () {
         contentContainer.innerHTML = `
             <div class="welcome-screen fade-in" style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 2rem; height: auto;">
-                <div class="gift-icon" style="font-size: 5rem; margin-bottom: 1rem; animation: float 4s ease-in-out infinite;">✨</div>
+                <div class="gift-icon" style="font-size: 5rem; margin-bottom: 1rem; animation: float 4s ease-in-out infinite;">🎁</div>
                 <h2 style="font-size: 2.8rem; background: linear-gradient(to right, var(--accent-blue), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.75rem; text-align: center; line-height: 1.2;">
                     ${HANDBOOK_TITLE}
                 </h2>
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Helper: Flatten all topics to enable easy searching
     function processAllTopics(data) {
         data.modules.forEach(mod => {
-            if(mod.topics) {
+            if (mod.topics) {
                 mod.topics.forEach(topic => {
                     allTopics.push({
                         ...topic,
@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
         data.modules.forEach(mod => {
             const li = document.createElement('li');
             li.className = 'module-item';
-            
+
             const btn = document.createElement('button');
             btn.className = 'module-title';
             btn.textContent = mod.name;
@@ -125,31 +125,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Toggle the open class to collapse/expand topic list
                 li.classList.toggle('open');
             };
-            
+
             li.appendChild(btn);
 
             if (mod.topics && mod.topics.length > 0) {
                 const ul = document.createElement('ul');
                 ul.className = 'topic-list';
-                
+
                 mod.topics.forEach(topic => {
                     const topicLi = document.createElement('li');
                     topicLi.className = 'topic-item';
-                    
+
                     const topicBtn = document.createElement('button');
                     topicBtn.className = 'topic-link';
                     topicBtn.textContent = topic.title;
                     topicBtn.setAttribute('data-id', topic.id);
                     // Open the topic on click
                     topicBtn.onclick = () => loadTopic(topic, topicBtn);
-                    
+
                     topicLi.appendChild(topicBtn);
                     ul.appendChild(topicLi);
                 });
-                
+
                 li.appendChild(ul);
             }
-            
+
             moduleList.appendChild(li);
         });
     }
@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 2. Hide sidebar on mobile after clicking
         closeSidebar();
-        
+
         // 3. Clear search bar if coming from search
         searchInput.value = '';
 
@@ -254,7 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Instant Search functionality
     searchInput.addEventListener('input', (e) => {
         const query = e.target.value.toLowerCase().trim();
-        
+
         // Clear active highlights in sidebar
         document.querySelectorAll('.topic-link').forEach(btn => btn.classList.remove('active'));
 
@@ -354,7 +354,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const webviewFrame = document.getElementById('webviewFrame');
     const modalTitle = document.getElementById('modalTitle');
 
-    window.openWebview = function(query, type = 'section') {
+    window.openWebview = function (query, type = 'section') {
         if (type === 'case') {
             modalTitle.textContent = `Landmark Case: ${query}`;
             webviewFrame.src = `https://www.bing.com/search?q=${encodeURIComponent(query + ' corporate law case summary')}`;
@@ -369,7 +369,7 @@ document.addEventListener('DOMContentLoaded', () => {
         webviewModal.classList.add('show');
     };
 
-    window.openWebviewDirect = function(url, title) {
+    window.openWebviewDirect = function (url, title) {
         modalTitle.textContent = title;
         webviewFrame.src = url;
         webviewModal.classList.add('show');
@@ -398,7 +398,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const startBtn = document.getElementById('pomodoroStartBtn');
         const statusDisplay = document.getElementById('pomodoroStatus');
         const ring = document.getElementById('pomodoroRing');
-        
+
         if (timeDisplay) {
             const minutes = Math.floor(timeLeft / 60);
             const seconds = timeLeft % 60;
@@ -411,7 +411,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const percent = timeLeft / totalTimeSeconds;
             const offset = 816 - (percent * 816);
             ring.style.strokeDashoffset = offset;
-            
+
             // Adjust ring color based on state
             if (!isRunning && timeLeft < totalTimeSeconds && timeLeft > 0) {
                 ring.style.stroke = 'var(--accent-gold)';
@@ -421,7 +421,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ring.style.stroke = 'var(--accent-blue)';
             }
         }
-        
+
         if (startBtn && statusDisplay) {
             if (isRunning) {
                 startBtn.innerHTML = '<span class="icon">⏸</span>';
@@ -435,10 +435,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    window.openPomodoro = function() {
+    window.openPomodoro = function () {
         // Clear active highlights in sidebar
         document.querySelectorAll('.topic-link').forEach(btn => btn.classList.remove('active'));
-        if(window.innerWidth <= 768) closeSidebar();
+        if (window.innerWidth <= 768) closeSidebar();
         searchInput.value = '';
 
         contentContainer.innerHTML = `
@@ -485,20 +485,20 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         // Sync UI with current state
         updatePomodoroUI();
-        
+
         // Update active preset button based on totalTimeSeconds
         updateActivePresetBtn(totalTimeSeconds / 60);
     };
 
     function updateActivePresetBtn(minutes) {
         const btns = document.querySelectorAll('#presetGroup button');
-        if(!btns.length) return;
+        if (!btns.length) return;
         btns.forEach(b => b.classList.remove('active'));
         const target = Array.from(btns).find(b => parseInt(b.textContent) === minutes);
         if (target) target.classList.add('active');
     }
 
-    window.togglePomodoro = function() {
+    window.togglePomodoro = function () {
         if (isRunning) {
             clearInterval(pomodoroInterval);
         } else {
@@ -509,14 +509,14 @@ document.addEventListener('DOMContentLoaded', () => {
         updatePomodoroUI();
     };
 
-    window.resetPomodoro = function() {
+    window.resetPomodoro = function () {
         clearInterval(pomodoroInterval);
         isRunning = false;
         timeLeft = totalTimeSeconds;
         updatePomodoroUI();
     };
 
-    window.setPomodoroTime = function(minutes, btnElement) {
+    window.setPomodoroTime = function (minutes, btnElement) {
         clearInterval(pomodoroInterval);
         isRunning = false;
         totalTimeSeconds = minutes * 60;
@@ -530,7 +530,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    window.applyCustomTime = function() {
+    window.applyCustomTime = function () {
         const input = document.getElementById('customTimeInput');
         if (input && input.value && input.value > 0) {
             setPomodoroTime(parseInt(input.value), null);
