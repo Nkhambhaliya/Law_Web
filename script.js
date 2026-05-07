@@ -77,7 +77,9 @@ document.addEventListener('DOMContentLoaded', () => {
     window.loadHome = function () {
         contentContainer.innerHTML = `
             <div class="welcome-screen fade-in" style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 2rem; height: auto;">
-                <div class="gift-icon" style="font-size: 5rem; margin-bottom: 1rem; animation: float 4s ease-in-out infinite;">🎁</div>
+                <div class="gift-icon" style="margin-bottom: 1.5rem; animation: float 4s ease-in-out infinite;">
+                    <img src="https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Wrapped%20gift/3D/wrapped_gift_3d.png" alt="Gift Box" style="width: 120px; height: 120px; pointer-events: none; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.1));">
+                </div>
                 <h2 style="font-size: 2.8rem; background: linear-gradient(to right, var(--accent-blue), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.75rem; text-align: center; line-height: 1.2;">
                     ${HANDBOOK_TITLE}
                 </h2>
