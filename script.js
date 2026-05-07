@@ -74,10 +74,22 @@ document.addEventListener('DOMContentLoaded', () => {
         giftOverlay.style.display = 'none';
     }
 
+    window.playHomeGiftAnimation = function (el) {
+        if (el.dataset.animating) return;
+        el.dataset.animating = 'true';
+        el.style.animation = 'bounceShake 0.6s cubic-bezier(.36,.07,.19,.97)';
+        createConfetti();
+
+        setTimeout(() => {
+            el.style.animation = 'float 4s ease-in-out infinite';
+            delete el.dataset.animating;
+        }, 600);
+    };
+
     window.loadHome = function () {
         contentContainer.innerHTML = `
             <div class="welcome-screen fade-in" style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 2rem; height: auto;">
-                <div class="gift-icon" style="margin-bottom: 1.5rem; animation: float 4s ease-in-out infinite;">
+                <div class="gift-icon" onclick="playHomeGiftAnimation(this)" style="cursor: pointer; margin-bottom: 1.5rem; animation: float 4s ease-in-out infinite; transition: transform 0.2s;">
                     <img src="https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@main/assets/Wrapped%20gift/3D/wrapped_gift_3d.png" alt="Gift Box" style="width: 120px; height: 120px; pointer-events: none; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.1));">
                 </div>
                 <h2 style="font-size: 2.8rem; background: linear-gradient(to right, var(--accent-blue), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.75rem; text-align: center; line-height: 1.2;">

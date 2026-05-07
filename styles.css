@@ -665,6 +665,15 @@ h1, h2, h3, h4, h5 { font-weight: 700; color: var(--text-main); }
     50% { opacity: 1; }
     100% { opacity: 0.4; }
 }
+
+@keyframes bounceShake {
+    0% { transform: scale(1); }
+    20% { transform: scale(1.2) rotate(-10deg); }
+    40% { transform: scale(1.2) rotate(10deg); }
+    60% { transform: scale(1.2) rotate(-10deg); }
+    80% { transform: scale(1.2) rotate(10deg); }
+    100% { transform: scale(1); }
+}
 [data-theme="dark"] .case-name:hover {
     color: #c4b5fd;
 }
