@@ -114,11 +114,11 @@ document.addEventListener('DOMContentLoaded', () => {
                             <h4>Focus Timer</h4>
                             <p>Beautiful custom timers to maximize your study sessions.</p>
                         </div>
-                        <!-- Web Search -->
-                        <div class="card tool-card fade-in" style="animation-delay: 0.3s; border-radius: 1.5rem;" onclick="openWebview('', 'web')">
-                            <div class="tool-icon">🌐</div>
-                            <h4>Deep Search</h4>
-                            <p>Search the entire web for specific case laws and sections.</p>
+                        <!-- Modules -->
+                        <div class="card tool-card fade-in" style="animation-delay: 0.3s; border-radius: 1.5rem;" onclick="openSidebarMenu()">
+                            <div class="tool-icon">📚</div>
+                            <h4>Browse Modules</h4>
+                            <p>Explore the complete collection of topics and notes.</p>
                         </div>
                     </div>
                 </div>
@@ -394,6 +394,20 @@ document.addEventListener('DOMContentLoaded', () => {
         sidebar.classList.remove('open');
         sidebarOverlay.classList.remove('show');
     }
+
+    window.openSidebarMenu = function () {
+        if (window.innerWidth <= 768) {
+            sidebar.classList.add('open');
+            sidebarOverlay.classList.add('show');
+        } else {
+            // Draw attention to sidebar on desktop
+            sidebar.animate([
+                { transform: 'scale(1)', boxShadow: 'none' },
+                { transform: 'scale(1.02)', boxShadow: '0 0 15px rgba(138, 168, 255, 0.5)' },
+                { transform: 'scale(1)', boxShadow: 'none' }
+            ], { duration: 400, easing: 'ease-in-out' });
+        }
+    };
 
     // Webview Modal Handlers
     const webviewModal = document.getElementById('webviewModal');
