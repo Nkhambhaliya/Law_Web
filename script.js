@@ -1,6 +1,6 @@
 // --- PERSONALIZATION SETTINGS ---
 const HANDBOOK_TITLE = "Corporate Law Handbook";
-const WELCOME_MESSAGE = `A revision guide, custom built just for you ✨`;
+const WELCOME_MESSAGE = `A revision guide, custom built just for you ✨<br><br><span style="font-style: italic; opacity: 0.8; font-weight: 500;">— Crafted by Nikhil</span>`;
 
 // Theme initialization
 const initTheme = () => {
