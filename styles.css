@@ -76,7 +76,7 @@ h1, h2, h3, h4, h5 { font-weight: 700; color: var(--text-main); }
     background-color: var(--sidebar-bg);
     backdrop-filter: blur(24px);
     border-right: 1px solid var(--border-color);
-    display: flex; flex-direction: column; height: 100%; z-index: 40;
+    display: flex; flex-direction: column; height: 100%; z-index: 60;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 4px 0 24px rgba(0,0,0,0.03);
 }
@@ -499,7 +499,7 @@ h1, h2, h3, h4, h5 { font-weight: 700; color: var(--text-main); }
 .search-result-item.web-search-item:hover { background: #dbeafe; }
 
 /* Sidebar Dark Overlay for Mobile */
-.sidebar-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(4px); z-index: 35; opacity: 0; transition: opacity 0.3s ease; }
+.sidebar-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(4px); z-index: 55; opacity: 0; transition: opacity 0.3s ease; }
 
 /* Webview Modal Styles */
 .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px); z-index: 100; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
