@@ -86,7 +86,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 600);
     };
 
-    window.loadHome = function () {
+    window.loadHome = function (pushHistory = true) {
+        if (pushHistory) history.pushState({ view: 'home' }, '', window.location.pathname);
+        document.querySelectorAll('.topic-link').forEach(btn => btn.classList.remove('active'));
+
         contentContainer.innerHTML = `
             <div class="welcome-screen fade-in" style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 2rem; height: auto;">
                 <div class="gift-icon" onclick="playHomeGiftAnimation(this)" style="cursor: pointer; margin-bottom: 1.5rem; animation: float 4s ease-in-out infinite; transition: transform 0.2s;">
@@ -198,7 +201,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Generate and inject content for a selected topic
-    function loadTopic(topic, activeButton) {
+    function loadTopic(topic, activeButton, pushHistory = true) {
+        if (pushHistory) history.pushState({ view: 'topic', topicId: topic.id }, '', '?topic=' + encodeURIComponent(topic.id));
         // 1. Highlight selected topic in sidebar
         document.querySelectorAll('.topic-link').forEach(btn => btn.classList.remove('active'));
         if (activeButton) {
@@ -430,10 +434,12 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => { webviewFrame.src = ''; }, 300);
     }
 
-    // Global Pomodoro State
-    let pomodoroInterval = null;
+    // ----------------------------------------------------------------
+    // POMODORO FOCUS TIMER SYSTEM (Distraction Free Page)
+    // ----------------------------------------------------------------
+    let pomodoroInterval;
+    let timeLeft = 25 * 60; // Default 25 mins
     let totalTimeSeconds = 25 * 60;
-    let timeLeft = 25 * 60;
     let isRunning = false;
 
     function updatePomodoroUI() {
@@ -478,7 +484,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    window.openPomodoro = function () {
+    window.openPomodoro = function (pushHistory = true) {
+        if (pushHistory) history.pushState({ view: 'pomodoro' }, '', '?view=pomodoro');
         // Clear active highlights in sidebar
         document.querySelectorAll('.topic-link').forEach(btn => btn.classList.remove('active'));
         if (window.innerWidth <= 768) closeSidebar();
@@ -624,4 +631,24 @@ document.addEventListener('DOMContentLoaded', () => {
             animation.onfinish = () => confetti.remove();
         }
     }
+
+    // Handle Browser Back Button correctly
+    window.addEventListener('popstate', (e) => {
+        if (!e.state || e.state.view === 'home') {
+            loadHome(false);
+        } else if (e.state.view === 'pomodoro') {
+            openPomodoro(false);
+        } else if (e.state.view === 'topic') {
+            const topic = allTopics.find(t => t.id === e.state.topicId);
+            if (topic) {
+                const btn = Array.from(document.querySelectorAll('.topic-link')).find(b => b.getAttribute('data-id') === topic.id);
+                loadTopic(topic, btn, false);
+            } else {
+                loadHome(false);
+            }
+        }
+    });
+
+    // Set initial state for home
+    history.replaceState({ view: 'home' }, '', window.location.pathname);
 });
