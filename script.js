@@ -45,6 +45,35 @@ document.addEventListener('DOMContentLoaded', () => {
     // Global Data State
     let contentData = null;
 
+    // Gift Opening Logic
+    const giftOverlay = document.getElementById('giftOverlay');
+    const giftBox = document.getElementById('giftBox');
+
+    // Check if gift was already opened in this session
+    if (!sessionStorage.getItem('giftOpened') && giftOverlay) {
+        document.body.style.overflow = 'hidden'; // Lock scroll
+
+        window.openGift = function () {
+            if (giftBox.classList.contains('opening')) return;
+
+            giftBox.classList.add('opening');
+            document.getElementById('giftText').style.opacity = '0';
+
+            // Big Confetti Explosion
+            createConfetti();
+            setTimeout(createConfetti, 200);
+            setTimeout(createConfetti, 400);
+
+            setTimeout(() => {
+                giftOverlay.classList.add('hidden');
+                document.body.style.overflow = ''; // Unlock scroll
+                sessionStorage.setItem('giftOpened', 'true');
+            }, 700);
+        };
+    } else if (giftOverlay) {
+        giftOverlay.style.display = 'none';
+    }
+
     window.loadHome = function () {
         contentContainer.innerHTML = `
             <div class="welcome-screen fade-in" style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 2rem; height: auto;">
